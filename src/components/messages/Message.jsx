@@ -27,13 +27,11 @@ const Message = ({ message }) => {
     message.Content.replace(/\n/g, "")
   );
 
-  //toast.success(message.Content + message.isSend)
-
   return (
     <div className={`chat ${chatClassName}`}>
       <div className="chat-image avatar">
         <div className="w-10 rounded-full">
-          <img alt="User avatar" src={profilePic} />
+          {!fromMe ? <img alt="User avatar" src={profilePic} /> : ""}
         </div>
       </div>
       <div

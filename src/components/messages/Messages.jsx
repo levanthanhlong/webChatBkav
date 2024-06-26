@@ -5,6 +5,7 @@ import Message from "./Message";
 import useConversation from "../../zustand/useConversation";
 import useCheckNewMessages from "../../hooks/useCheckNewMessages";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 const Messages = () => {
   const { messages: fetchedMessages, loading } = useGetMessages();
@@ -42,8 +43,16 @@ const Messages = () => {
     }
   }, [messages]);
 
+  var handleScroll = () => {
+    lastMessageRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
-    <div className="px-4 flex-1 overflow-auto">
+    <div className="px-4 flex-1 overflow-auto relative bg-gray-100">
+      <button className="fixed right-10 bottom-24 hover:bg-gray-400 rounded-full shadow-xl bg-white p-2" onClick={handleScroll}>
+        <KeyboardArrowDownIcon className="text-blue-800 " />
+      </button>
+
       {!loading &&
         messages.length > 0 &&
         messages.map((message, index) => (
@@ -60,7 +69,10 @@ const Messages = () => {
       {!loading && messages.length === 0 && (
         <div className="flex justify-center items-center flex-col gap-20">
           <div className="mt-80">
-            <ChatBubbleOutlineIcon style={{ fontSize: 100 }} className="text-gray-400" />
+            <ChatBubbleOutlineIcon
+              style={{ fontSize: 100 }}
+              className="text-gray-400"
+            />
           </div>
           <div className="text-center">
             <p className="text-gray-400">Chưa có tin nhắn...</p>

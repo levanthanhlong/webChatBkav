@@ -2,6 +2,9 @@ import { useState } from "react";
 import useSignup from "../../hooks/useSignup";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 const SignUp = () => {
   const [inputs, setInputs] = useState({
@@ -10,7 +13,8 @@ const SignUp = () => {
     password: "",
     confirmPassword: "",
   });
-
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { loading, signup } = useSignup();
 
   const handleSubmit = async (e) => {
@@ -44,8 +48,8 @@ const SignUp = () => {
           </div>
         </div>
 
-        {/* Form */}
-        <div className="flex flex-col w-full max-w-md p-4 md:p-8 lg:w-88">
+        {/* Form  dang ky */}
+        <div className="flex flex-col w-full max-w-md p-4 md:p-8 lg:w-88 gap-8">
           <div className="flex flex-row justify-between items-center mb-4">
             <div className="null"></div>
             <div className="choose-language">
@@ -61,71 +65,97 @@ const SignUp = () => {
             <div className="flex">
               <button
                 onClick={() => navigate("/login")}
-                className={`px-4 py-2 font-medium transition rounded-3xl ${isLoginPage
-                  ? "bg-white text-blue-500"
-                  : "text-blue-500 hover:bg-white"
-                  }`}
+                className={`px-4 py-2 font-medium transition rounded-3xl ${
+                  isLoginPage
+                    ? "bg-white text-blue-500"
+                    : "text-blue-500 hover:bg-white"
+                }`}
               >
                 Đăng nhập
               </button>
               <button
                 onClick={() => navigate("/signup")}
-                className={`ml-4 px-4 py-2 font-medium transition rounded-3xl ${isSignUpPage
-                  ? "bg-white text-blue-500"
-                  : "text-blue-500 hover:bg-white"
-                  }`}
+                className={`ml-4 px-4 py-2 font-medium transition rounded-3xl ${
+                  isSignUpPage
+                    ? "bg-white text-blue-500 shadow-xl"
+                    : "text-blue-500 hover:bg-white"
+                }`}
               >
                 Đăng ký
               </button>
             </div>
           </div>
 
-          <div className="form flex flex-col">
+          <div className="form flex flex-col gap-4">
             <h1 className="text-3xl md:text-6xl text-black">Đăng ký</h1>
             <br></br>
             <div>
               <form className="space-y-4" onSubmit={handleSubmit}>
-                <div>
+                <div className="form-control relative">
                   <input
                     type="text"
                     placeholder="Tên hiển thị"
-                    className="w-full input input-bordered h-10 bg-customBlue text-customGray"
+                    className="w-full input input-bordered h-15 bg-customBlue text-customGray"
                     value={inputs.fullName}
                     onChange={(e) =>
                       setInputs({ ...inputs, fullName: e.target.value })
                     }
                   />
+                  {inputs.fullName && (
+                    <HighlightOffIcon
+                      className="absolute right-2 top-2 text-gray-500 cursor-pointer"
+                      size={20}
+                      onClick={() => setInputs({ ...inputs, fullName: "" })}
+                    />
+                  )}
                 </div>
 
-                <div>
+                <div className="form-control relative">
                   <input
                     type="text"
                     placeholder="tài khoản"
-                    className="w-full input input-bordered h-10 bg-customBlue text-customGray"
+                    className="w-full input input-bordered h-15 bg-customBlue text-customGray"
                     value={inputs.username}
                     onChange={(e) =>
                       setInputs({ ...inputs, username: e.target.value })
                     }
                   />
+                  {inputs.username && (
+                    <HighlightOffIcon
+                      className="absolute right-2 top-2 text-gray-500 cursor-pointer"
+                      size={20}
+                      onClick={() => setInputs({ ...inputs, username: "" })}
+                    />
+                  )}
                 </div>
 
-                <div>
+                <div className="form-control relative">
                   <input
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     placeholder="Mật khẩu"
-                    className="w-full input input-bordered h-10 bg-customBlue text-customGray"
+                    className="w-full input input-bordered h-15 bg-customBlue text-customGray"
                     value={inputs.password}
                     onChange={(e) =>
                       setInputs({ ...inputs, password: e.target.value })
                     }
                   />
+                  <div
+                    className="absolute right-2 top-2 text-gray-500 cursor-pointer"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? (
+                      <VisibilityIcon size={20} />
+                    ) : (
+                      <VisibilityOffIcon size={20} />
+                    )}
+                  </div>
                 </div>
 
-                <div>
+                <div className="form-control relative">
                   <input
-                    type="password"
+                    type={showConfirmPassword ? "text" : "password"}
                     placeholder="Nhắc lại mật khẩu"
-                    className="w-full input input-bordered h-10 bg-customBlue text-customGray"
+                    className="w-full input input-bordered h-15 bg-customBlue text-customGray"
                     value={inputs.confirmPassword}
                     onChange={(e) =>
                       setInputs({
@@ -134,6 +164,16 @@ const SignUp = () => {
                       })
                     }
                   />
+                  <div
+                    className="absolute right-2 top-2 text-gray-500 cursor-pointer"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  >
+                    {showConfirmPassword ? (
+                      <VisibilityIcon size={20} />
+                    ) : (
+                      <VisibilityOffIcon size={20} />
+                    )}
+                  </div>
                 </div>
                 <div>
                   <button
@@ -148,7 +188,7 @@ const SignUp = () => {
                   </button>
                 </div>
                 <div className="text-xl mt-2 inline-block text-black">
-                  Bạn đã có tài khoản, đăng nhập <br/> tại &nbsp;
+                  Bạn đã có tài khoản, đăng nhập <br /> tại &nbsp;
                   <Link
                     to={"/login"}
                     className="text-xl text-blue-600 mt-2 inline-block"
@@ -167,3 +207,4 @@ const SignUp = () => {
 };
 
 export default SignUp;
+

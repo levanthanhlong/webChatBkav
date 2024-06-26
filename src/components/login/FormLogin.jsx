@@ -4,13 +4,16 @@ import useLogin from "../../hooks/useLogin";
 import { BsApple, BsFacebook, BsGoogle } from "react-icons/bs";
 import AuthSocialButton from "./AuthSocialButton";
 import { Toaster } from "react-hot-toast";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 
 const FormLogin = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
-
+  const [showPassword, setShowPassword] = useState(false);
   const { loading, login } = useLogin();
 
   const handleSubmit = async (e) => {
@@ -25,7 +28,7 @@ const FormLogin = () => {
 
   return (
     <div className="w-full min-h-screen flex flex-col bg-gray-100">
-      <Toaster/>
+      <Toaster />
       {/* Header */}
       <div className="w-full px-8 py-4">
         <img src="/images/logo-deep.png" alt="Logo" width={100} height={40} />
@@ -54,10 +57,15 @@ const FormLogin = () => {
                   <br />
                   kết nối
                 </h2>
+                <br />
                 <span className="cursor-pointer hover:text-primary-dark">
-                  Nếu chưa có tài khoản Đăng ký tại
-                  <br />
-                  <span className="text-blue-500">đây!</span>
+                  Nếu chưa có tài khoản Đăng ký <br/>tại&nbsp;
+                  <span
+                    onClick={() => navigate("/signup")}
+                    className="text-blue-500"
+                  >
+                    đây!
+                  </span>
                 </span>
               </div>
             </div>
@@ -72,7 +80,7 @@ const FormLogin = () => {
         </div>
 
         {/* Form */}
-        <div className="flex flex-col w-full max-w-md p-4 md:p-8 lg:w-88">
+        <div className="flex flex-col w-full max-w-md p-4 md:p-8 lg:w-88 gap-40">
           <div className="flex flex-row justify-between items-center mb-4">
             <div className="null"></div>
             <div className="choose-language">
@@ -90,7 +98,7 @@ const FormLogin = () => {
                 onClick={() => navigate("/login")}
                 className={`px-4 py-2 font-medium transition rounded-3xl ${
                   isLoginPage
-                    ? "bg-white text-blue-500 border-t "
+                    ? "bg-white text-blue-500 border-t shadow-xl"
                     : "text-blue-500 hover:bg-white"
                 }`}
               >
@@ -100,7 +108,7 @@ const FormLogin = () => {
                 onClick={() => navigate("/signup")}
                 className={`ml-4 px-4 py-2 font-medium transition rounded-3xl ${
                   isSignUpPage
-                    ? "bg-white text-blue-500"
+                    ? "bg-white text-blue-500 shadow-xl"
                     : "text-blue-500 hover:bg-white"
                 }`}
               >
@@ -108,8 +116,8 @@ const FormLogin = () => {
               </button>
             </div>
           </div>
-          <br />
-          <br />
+
+          {/* from đăng ký */}
           <div className="form flex flex-col">
             <div className="form-1">
               <form className="space-y-4" onSubmit={handleSubmit}>
@@ -117,19 +125,36 @@ const FormLogin = () => {
                   <input
                     type="text"
                     placeholder="Nhập tài khoản"
-                    className="w-full input input-bordered h-10 bg-customBlue text-customGray"
+                    className="w-full input input-bordered h-15 bg-customBlue text-customGray"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                   />
+                  {username && (
+                    <HighlightOffIcon
+                      className="absolute right-2 top-2 text-gray-500 cursor-pointer"
+                      size={20}
+                      onClick={() => setUsername("")}
+                    />
+                  )}
                 </div>
                 <div className="form-control relative">
                   <input
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     placeholder="***********"
-                    className="w-full input input-bordered h-10 bg-customBlue text-customGray"
+                    className="w-full input input-bordered h-15 bg-customBlue text-customGray"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />
+                  <div
+                    className="absolute right-2 top-2 text-gray-500 cursor-pointer"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? (
+                      <VisibilityIcon size={20} />
+                    ) : (
+                      <VisibilityOffIcon size={20} />
+                    )}
+                  </div>
                 </div>
                 <div className="div-forgot-password text-right">
                   <span className="text-blue-500 cursor-pointer">

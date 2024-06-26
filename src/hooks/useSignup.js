@@ -37,7 +37,7 @@ const useSignup = () => {
       setAuthUser(user);
       toast.success("Signup successful");
     } catch (error) {
-      toast.error("Tên đăng nhập đã tồn tại");
+      toast.error("có thể tên đăng nhập đã tồn tại vui lòng kiểm tra lại");
     } finally {
       setLoading(false);
     }

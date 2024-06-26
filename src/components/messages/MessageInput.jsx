@@ -1,10 +1,10 @@
 import { useState, useRef } from "react";
-import { BsSend } from "react-icons/bs";
+import SendIcon from "@mui/icons-material/Send";
 import useSendMessage from "../../hooks/useSendMessage";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import toast from "react-hot-toast";
 import EmojiPicker from "emoji-picker-react";
-import InsertEmoticonIcon from '@mui/icons-material/InsertEmoticon';
+import InsertEmoticonIcon from "@mui/icons-material/InsertEmoticon";
 
 const MessageInput = () => {
   const [message, setMessage] = useState("");
@@ -45,7 +45,10 @@ const MessageInput = () => {
       setMessage(newMessage);
       requestAnimationFrame(() => {
         const newCursorPosition = cursorPosition + 1;
-        textareaRef.current.setSelectionRange(newCursorPosition, newCursorPosition);
+        textareaRef.current.setSelectionRange(
+          newCursorPosition,
+          newCursorPosition
+        );
       });
     } else if (e.key === "Enter") {
       e.preventDefault();
@@ -68,10 +71,10 @@ const MessageInput = () => {
         >
           <AddCircleOutlineIcon />
         </button>
-        <div className="w-full flex gap-4">
+        <div className="w-full flex gap-4 relative">
           <textarea
             ref={textareaRef}
-            className="border text-sm rounded-lg block p-2.5 bg-gray-100 border-gray-600 text-black w-95/100 resize-none"
+            className="border text-sm rounded-lg block p-2.5 bg-gray-100 border-gray-600 text-black w-98/100 resize-none"
             placeholder="Send a message"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
@@ -80,6 +83,7 @@ const MessageInput = () => {
           />
           <button
             type="button"
+            className="absolute right-16 top-2 bottom-2"
             onClick={() => setIsEmojiPickerOpen(!isEmojiPickerOpen)}
           >
             <InsertEmoticonIcon />
@@ -93,7 +97,9 @@ const MessageInput = () => {
             {loading ? (
               <div className="loading loading-spinner"></div>
             ) : (
-              <BsSend />
+              <div className="p-2 bg-gray-400  rounded-full">
+                <SendIcon className="text-white" />
+              </div>
             )}
           </button>
         </div>

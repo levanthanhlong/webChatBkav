@@ -75,7 +75,7 @@ const Conversation = ({ conversation, lastIdx, nickname, onNicknameChange }) => 
                 onChange={handleNicknameChange}
                 onBlur={handleNicknameBlur}
                 onKeyDown={handleNicknameKeyDown}
-                className="font-bold text-black bg-white"
+                className="font-bold text-black bg-white w-full"
                 autoFocus
               />
             ) : (
